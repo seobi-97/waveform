@@ -1,4 +1,4 @@
-## Make a waveform with wavesurfer libaray
+# Make a waveform with wavesurfer libaray
 
 [Wavesurfer Doc](https://wavesurfer-js.org/docs/)
 
@@ -8,7 +8,7 @@
 
 [참고 자료2](https://medium.com/trackstack/simple-audio-waveform-with-wavesurfer-js-and-react-ae6c0653b240)
 
-# 추가해야할 기능
+## 추가해야할 기능
 
 - [ ] Zoom In Out
 - [ ] 파형 박스 안에 넣기
