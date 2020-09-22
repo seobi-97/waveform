@@ -1,4 +1,4 @@
-# Make a waveform with wavesurfer libaray
+# wavesurfer libaray를 이용한 파형 구현
 
 [Wavesurfer Doc](https://wavesurfer-js.org/docs/)
 
