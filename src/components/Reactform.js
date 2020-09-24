@@ -61,6 +61,18 @@ export default class RegionsExample extends React.Component {
     this.setState({ playing: false });
   };
 
+  // Zoom
+  zoom = (direction) => {
+    const { wavesurfer } = this.state;
+    const currentZoom = wavesurfer.params.minPxPerSec;
+
+    if (direction === "in") {
+      wavesurfer.zoom(currentZoom + 10);
+    } else if (direction === "out" && currentZoom > 1) {
+      wavesurfer.zoom(currentZoom - 10);
+    }
+  };
+
   render() {
     const { duration, pos, wavesurfer } = this.state;
     return (
@@ -117,6 +129,17 @@ export default class RegionsExample extends React.Component {
           <span role="img" aria-label="clear regions button">
             ❌Clear All Resiongs
           </span>
+        </div>
+        <div className="zoom-buttons">
+          <div className="zoom-in button" onClick={this.zoom.bind(this, "in")}>
+            {"➕️"} Zoom In
+          </div>
+          <div
+            className="zoom-out button"
+            onClick={this.zoom.bind(this, "out")}
+          >
+            {"➖️"} Zoom Out
+          </div>
         </div>
       </div>
     );
