@@ -29,6 +29,10 @@ export default class TalkerForm extends React.Component {
       text,
     };
     this.props.onSaveData(data, selectedBoard.brdno);
+    this.setState({
+      talker: "",
+      text: "",
+    });
   };
 
   render() {
