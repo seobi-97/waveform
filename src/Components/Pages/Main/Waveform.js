@@ -11,6 +11,8 @@ export default class Waveform extends React.Component {
       duration: 0,
       pos: 0,
       regions: {},
+      startP: 0, // clicked region start point
+      endP: 0, // '' end point
     };
   }
 
@@ -55,8 +57,16 @@ export default class Waveform extends React.Component {
         this.secondsToPosition(e.originalArgs[0].start)
       );
     }, 50);
-    console.log("region start point", Math.floor(e.originalArgs[0].start));
-    console.log("region end point", Math.floor(e.originalArgs[0].end));
+
+    this.setState({
+      startP: e.originalArgs[0].start,
+      endP: e.originalArgs[0].end,
+    });
+    console.log(
+      "clicked region start point",
+      Math.floor(e.originalArgs[0].start)
+    );
+    console.log("clicked region end point", Math.floor(e.originalArgs[0].end));
   };
 
   handleRegionDone = () => {
