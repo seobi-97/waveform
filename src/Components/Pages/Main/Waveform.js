@@ -7,12 +7,9 @@ export default class Waveform extends React.Component {
 
     this.state = {
       wavesurfer: null,
-      playing: false,
       duration: 0,
       pos: 0,
       regions: {},
-      startP: 0, // clicked region start point
-      endP: 0, // '' end point
     };
   }
 
@@ -27,7 +24,7 @@ export default class Waveform extends React.Component {
     this.state.wavesurfer.on("ready", () =>
       this.setState({ duration: wavesurfer.getDuration() })
     );
-    this.state.wavesurfer.on("finish", () => this.setState({ playing: false }));
+    this.state.wavesurfer.on("finish", () => this.props.handleAudioPlay(false));
   };
 
   onPosChange = (pos, wavesurfer) => {
@@ -58,19 +55,23 @@ export default class Waveform extends React.Component {
       );
     }, 50);
 
-    this.setState({
-      startP: e.originalArgs[0].start,
-      endP: e.originalArgs[0].end,
-    });
-    console.log(
-      "clicked region start point",
-      Math.floor(e.originalArgs[0].start)
+    // 부모 컴포넌트 index로 값 넘기기
+    this.props.onClick(
+      e.originalArgs[0].start,
+      e.originalArgs[0].end,
+      this.state.wavesurfer
     );
-    console.log("clicked region end point", Math.floor(e.originalArgs[0].end));
   };
 
-  handleRegionDone = () => {
-    this.setState({ playing: false });
+  handleRegionDone = (e) => {
+    // go back to the start point
+    setTimeout(() => {
+      this.state.wavesurfer.seekTo(
+        this.secondsToPosition(e.originalArgs[0].start)
+      );
+    }, 50);
+
+    this.props.handleAudioPlay(false);
   };
 
   // Zoom
@@ -110,7 +111,7 @@ export default class Waveform extends React.Component {
             volume={1}
             zoom={1}
             pos={this.state.pos}
-            playing={this.state.playing}
+            playing={this.props.audioPlaying}
             onPosChange={this.onPosChange}
             onLoading={this.onLoading}
           >
@@ -128,21 +129,20 @@ export default class Waveform extends React.Component {
           <div
             className="play button"
             onClick={() => {
-              this.setState({
-                playing: !this.state.playing,
-              });
+              this.props.handleAudioPlay(!this.props.audioPlaying);
             }}
           >
-            {!this.state.playing ? "PLAY ▶" : "PAUSE ⏸"}
+            {!this.props.audioPlaying ? "PLAY ▶" : "PAUSE ⏸"}
           </div>
           <div
             className="clearRegions button"
             onClick={() => {
               wavesurfer.clearRegions();
+              this.props.handleClearRegionPoints();
             }}
           >
             <span role="img" aria-label="clear regions button">
-              ❌Clear All Resiongs
+              ❌Clear All Regions
             </span>
           </div>
           <div className="zoom-buttons">

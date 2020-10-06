@@ -16,6 +16,20 @@ class Main extends Component {
       },
     ],
     selectedBoard: {},
+    start: null, // mp3/selected region start time
+    end: null, // mp3/selected region end time
+    wavesurfer: null,
+    audioPlaying: false,
+  };
+
+  handleAudioPlay = (bool) => {
+    this.setState({ audioPlaying: bool });
+  };
+
+  // 자식 컴포넌트 waveform에서 받아온 값
+  handleSetRegionPoints = (start = null, end = null, wavesurfer = null) => {
+    this.setState({ start, end, wavesurfer });
+    console.log(`선택 구간 시작 : ${start}s / 선택 구간 끝 : ${end}s`);
   };
 
   handleGetData = (data, brdno) => {
@@ -23,19 +37,29 @@ class Main extends Component {
       // Insert
       this.setState({
         maxNo: this.state.maxNo + 1,
-        boards: this.state.boards.concat({ brdno: this.state.maxNo, ...data }),
+        boards: this.state.boards.concat({
+          brdno: this.state.maxNo,
+          ...data,
+          regionStart: this.state.start,
+          regionEnd: this.state.end,
+        }),
         selectedBoard: {},
       });
-      console.log("Insert 완료");
     } else {
       // Update
       this.setState({
         boards: this.state.boards.map((row) =>
-          brdno === row.brdno ? { brdno: brdno, ...data } : row
+          brdno === row.brdno
+            ? {
+                brdno,
+                ...data,
+                regionStart: this.state.start,
+                regionEnd: this.state.end,
+              }
+            : row
         ),
         selectedBoard: {},
       });
-      console.log("update 완료");
     }
   };
 
@@ -50,19 +74,30 @@ class Main extends Component {
     this.setState({ selectedBoard: row });
   };
 
+  handleClearRegionPoints = () => {
+    this.setState({ start: null, end: null }, () =>
+      console.log(this.state.start, this.state.end)
+    );
+    console.log("Clear Region start&end points");
+  };
+
   render() {
-    const { boards, selectedBoard } = this.state;
+    const { boards, selectedBoard, wavesurfer } = this.state;
 
     return (
       <>
-        <Waveform />
+        <Waveform
+          onClick={this.handleSetRegionPoints}
+          handleAudioPlay={this.handleAudioPlay}
+          audioPlaying={this.state.audioPlaying}
+          handleClearRegionPoints={this.handleClearRegionPoints}
+        />
 
         {/* 입력창 */}
         <TalkerForm
           onSaveData={this.handleGetData}
           selectedBoard={selectedBoard}
         />
-        {console.log(boards)}
 
         {/* 전사창 */}
         {boards.map((row) => (
@@ -71,6 +106,10 @@ class Main extends Component {
             row={row}
             onRemove={this.handleRemove}
             onSelectRow={this.handleSelectRow}
+            handleAudioPlay={this.handleAudioPlay}
+            audioPlaying={this.state.audioPlaying}
+            handleSetRegionPoints={this.handleSetRegionPoints}
+            wavesurfer={wavesurfer}
           />
         ))}
       </>

@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 // import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-// import Button from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 
 class TalkerItem extends Component {
   handleSelectRow = () => {
@@ -93,8 +93,38 @@ class TalkerItem extends Component {
           direction="column"
           justify="flex-end"
           alignItems="center"
-        ></Grid>
-        {/* 삭제, 분석상세보기 버튼 end */}
+        >
+          {this.props.row.regionStart ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              style={{ margin: 20, padding: 10 }}
+              onClick={() => {
+                const {
+                  handleAudioPlay,
+                  audioPlaying,
+                  row,
+                  wavesurfer,
+                } = this.props;
+
+                handleAudioPlay(!audioPlaying);
+
+                // go back to the start point
+                wavesurfer.seekTo(
+                  (1 / wavesurfer.getDuration()) * row.regionStart
+                );
+
+                // wavesurfer.play(row.regionStart, row.regionEnd);
+              }}
+            >
+              {/* {!this.props.audioPlaying ? "(Re)Play clip" : "Pause clip"} */}
+              ▶
+            </Button>
+          ) : (
+            <span />
+          )}
+        </Grid>
+        {/* 삭제, 편집, 분석상세보기 버튼 end */}
       </Grid>
     );
   }
