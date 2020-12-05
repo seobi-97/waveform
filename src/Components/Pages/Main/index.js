@@ -29,7 +29,7 @@ class Main extends Component {
   // 자식 컴포넌트 waveform에서 받아온 값
   handleSetRegionPoints = (start = null, end = null, wavesurfer = null) => {
     this.setState({ start, end, wavesurfer });
-    console.log(`선택 구간 시작 : ${start}s / 선택 구간 끝 : ${end}s`);
+    console.log(`클릭 구간 시작 : ${start}s / 클릭 구간 끝 : ${end}s`);
   };
 
   handleGetData = (data, brdno) => {
@@ -112,6 +112,7 @@ class Main extends Component {
             wavesurfer={wavesurfer}
           />
         ))}
+        {console.log("boards", boards)}
       </>
     );
   }

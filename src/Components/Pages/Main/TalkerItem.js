@@ -107,18 +107,34 @@ class TalkerItem extends Component {
                   wavesurfer,
                 } = this.props;
 
-                handleAudioPlay(!audioPlaying);
-
-                // go back to the start point
+                // go back to the start point when it's clickced
                 wavesurfer.seekTo(
                   (1 / wavesurfer.getDuration()) * row.regionStart
                 );
 
-                // wavesurfer.play(row.regionStart, row.regionEnd);
+                wavesurfer.play();
+
+                wavesurfer.on("audioprocess", () => {
+                  wavesurfer.play();
+                  wavesurfer.setPlayEnd(row.regionEnd);
+                  // console.log("cur", wavesurfer.getCurrentTime());
+                });
+
+                console.log(wavesurfer.regions.list);
+
+                // wavesurfer.clearRegions();
+
+                // loop
+                // wavesurfer.on("pause", () => {
+                //   wavesurfer.play();
+                // });
+
+                // console.log(`${row.brdno}번 구간 시작 : ${row.regionStart}`);
+                // console.log(`${row.brdno}번 구간 끝 : ${row.regionEnd}`);
+                // console.log("wavesurfer : ", wavesurfer);
               }}
             >
-              {/* {!this.props.audioPlaying ? "(Re)Play clip" : "Pause clip"} */}
-              ▶
+              ▶{/* {this.props.wavesurfer.isPlaying() ? "Play" : "Pause"} */}
             </Button>
           ) : (
             <span />

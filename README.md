@@ -8,14 +8,13 @@
 
 [참고 자료2](https://medium.com/trackstack/simple-audio-waveform-with-wavesurfer-js-and-react-ae6c0653b240)
 
-## 추가해야할 기능
+## 추가해야 할 기능
 
 - [ ] UI (⭐)
-- [ ] 구간이 있을 경우에도 전체 재생 (현재, 구간 존재시 해당 구간에 대해 loop만 됨)
 - [ ] 전사 블럭 삭제 / 편집 / 분석상세보기 버튼
 
-## Error
+## Issues
 
-- [ ] clear all regions 후에, 구간 전사 블럭 클립의 재생이 멈추지 않음 (끝 부분이 맞지 않음)
-- [ ] 구간 변경(이동, start point의 resize)시, 해당 전사 블럭에서 구간에 대해 재생되는 부분과 변경된 구간이 맞지 않음 => 구간과 전사 블럭의 연동 불안정
-- [ ] 전체 play 버튼이 연동됨
+- [ ] 리전을 기존 생성한 끝점에서 보다 앞으로 옮길 경우 Waveform.js의 handleRegionDone에 걸려서 끝점이 맞지 않는 문제
+- [ ] Region의 Loop 추가
+- [ ] 생선된 리전들의 wave 색깔이 같아 생선된 리전들의 위치를 파악하기 어려움

@@ -6,6 +6,8 @@ export default class Waveform extends React.Component {
     super(props);
 
     this.state = {
+      regionFlag: false,
+      playing: false,
       wavesurfer: null,
       duration: 0,
       pos: 0,
@@ -24,7 +26,11 @@ export default class Waveform extends React.Component {
     this.state.wavesurfer.on("ready", () =>
       this.setState({ duration: wavesurfer.getDuration() })
     );
-    this.state.wavesurfer.on("finish", () => this.props.handleAudioPlay(false));
+    this.state.wavesurfer.on("finish", () => {
+      this.setState({ playing: false });
+      // go back to the start point
+      wavesurfer.skipBackward(this.state.duration);
+    });
   };
 
   onPosChange = (pos, wavesurfer) => {
@@ -55,6 +61,8 @@ export default class Waveform extends React.Component {
       );
     }, 50);
 
+    this.setState({ regionFlag: true });
+
     // 부모 컴포넌트 index로 값 넘기기
     this.props.onClick(
       e.originalArgs[0].start,
@@ -64,14 +72,16 @@ export default class Waveform extends React.Component {
   };
 
   handleRegionDone = (e) => {
-    // go back to the start point
-    setTimeout(() => {
-      this.state.wavesurfer.seekTo(
-        this.secondsToPosition(e.originalArgs[0].start)
-      );
-    }, 50);
-
-    this.props.handleAudioPlay(false);
+    if (this.state.regionFlag) {
+      // go back to the start point
+      setTimeout(() => {
+        this.state.wavesurfer.seekTo(
+          this.secondsToPosition(e.originalArgs[0].start)
+        );
+      }, 50);
+      //loop prevent
+      this.setState({ playing: false });
+    }
   };
 
   // Zoom
@@ -111,7 +121,7 @@ export default class Waveform extends React.Component {
             volume={1}
             zoom={1}
             pos={this.state.pos}
-            playing={this.props.audioPlaying}
+            playing={this.state.playing}
             onPosChange={this.onPosChange}
             onLoading={this.onLoading}
           >
@@ -126,38 +136,60 @@ export default class Waveform extends React.Component {
             {new Date(pos * 1000).toISOString().substr(11, 8)} /{" "}
             {new Date(duration * 1000).toISOString().substr(11, 8)}
           </div>
-          <div
+          <button
             className="play button"
             onClick={() => {
-              this.props.handleAudioPlay(!this.props.audioPlaying);
+              this.setState({
+                playing: !this.state.playing,
+                regionFlag: false,
+              });
+              this.state.wavesurfer.on("audioprocess", () => {
+                this.state.wavesurfer.setPlayEnd(
+                  this.state.wavesurfer.getDuration()
+                );
+              });
             }}
           >
-            {!this.props.audioPlaying ? "PLAY ▶" : "PAUSE ⏸"}
-          </div>
-          <div
+            {!this.state.playing ? "Whole PLAY ▶" : "PAUSE ⏸"}
+          </button>
+
+          {this.state.regionFlag ? (
+            <button
+              onClick={() => {
+                this.setState({ playing: !this.state.playing });
+              }}
+            >
+              {!this.state.playing ? "Region PLAY" : "Pause"}
+            </button>
+          ) : (
+            <span></span>
+          )}
+
+          <br />
+          <button
             className="clearRegions button"
             onClick={() => {
               wavesurfer.clearRegions();
               this.props.handleClearRegionPoints();
+              this.setState({ regionFlag: false });
             }}
           >
-            <span role="img" aria-label="clear regions button">
-              ❌Clear All Regions
-            </span>
-          </div>
+            Clear All Regions
+          </button>
+
           <div className="zoom-buttons">
-            <div
+            <button
               className="zoom-in button"
               onClick={this.zoom.bind(this, "in")}
             >
               {"➕️"} Zoom In
-            </div>
-            <div
+            </button>
+            <button
               className="zoom-out button"
               onClick={this.zoom.bind(this, "out")}
             >
               {"➖️"} Zoom Out
-            </div>
+            </button>
           </div>
         </div>
       </>
