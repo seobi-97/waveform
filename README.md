@@ -8,6 +8,10 @@
 
 [참고 자료2](https://medium.com/trackstack/simple-audio-waveform-with-wavesurfer-js-and-react-ae6c0653b240)
 
+## Result
+
+[https://rovin0805.github.io/waveform/]
+
 ## 추가해야 할 기능
 
 - [ ] UI (⭐)
