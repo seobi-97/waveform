@@ -4,23 +4,32 @@ import TalkerForm from "./TalkerForm";
 import TalkerItem from "./TalkerItem";
 
 class Main extends Component {
-  state = {
-    maxNo: 1,
-    boards: [
-      {
-        brdno: 0,
-        talker: "코스모스",
-        text: "코스모스는 가을에 피어요.",
-        // analysisType: "morpAPI",
-        // analysisResult: "",
-      },
-    ],
-    selectedBoard: {},
-    start: null, // mp3/selected region start time
-    end: null, // mp3/selected region end time
-    wavesurfer: null,
-    audioPlaying: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      maxNo: 1,
+      boards: [
+        {
+          brdno: 0,
+          talker: "코스모스",
+          text: "코스모스는 가을에 피어요.",
+          // analysisType: "morpAPI",
+          // analysisResult: "",
+        },
+      ],
+      selectedBoard: {},
+      start: null, // mp3/selected region start time
+      end: null, // mp3/selected region end time
+      wavesurfer: null,
+      audioPlaying: false,
+    };
+    this.handleAudioPlay = this.handleAudioPlay.bind(this);
+    this.handleSetRegionPoints = this.handleSetRegionPoints.bind(this);
+    this.handleGetData = this.handleGetData.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
+    this.handleSelectRow = this.handleSelectRow.bind(this);
+    this.handleClearRegionPoints = this.handleClearRegionPoints.bind(this);
+  }
 
   handleAudioPlay = (bool) => {
     this.setState({ audioPlaying: bool });
@@ -83,7 +92,7 @@ class Main extends Component {
 
   render() {
     const { boards, selectedBoard, wavesurfer } = this.state;
-
+    console.log("userToken in Main", this.props.user.userToken);
     return (
       <>
         <Waveform
