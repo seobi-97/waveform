@@ -22,6 +22,7 @@ class Main extends Component {
       end: null, // mp3/selected region end time
       wavesurfer: null,
       audioPlaying: false,
+      result:[],
     };
     this.handleAudioPlay = this.handleAudioPlay.bind(this);
     this.handleSetRegionPoints = this.handleSetRegionPoints.bind(this);
@@ -29,6 +30,7 @@ class Main extends Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.handleSelectRow = this.handleSelectRow.bind(this);
     this.handleClearRegionPoints = this.handleClearRegionPoints.bind(this);
+    this.handleResult=this.handleResult.bind(this);
   }
 
   handleAudioPlay = (bool) => {
@@ -42,6 +44,10 @@ class Main extends Component {
   };
 
   handleGetData = (data, brdno) => {
+    this.state.result=this.state.result.concat({
+      brdnp:this.state.maxNo,
+      ...data,
+    });
     if (!brdno) {
       // Insert
       this.setState({
@@ -89,9 +95,13 @@ class Main extends Component {
     );
     console.log("Clear Region start&end points");
   };
-
+  handleResult=(result)=>{
+    this.setState({
+      result:result
+    });
+  }
   render() {
-    const { boards, selectedBoard, wavesurfer } = this.state;
+    const { boards, selectedBoard, wavesurfer, result } = this.state;
     console.log("userToken in Main", this.props.user.userToken);
     return (
       <>
@@ -122,6 +132,10 @@ class Main extends Component {
           />
         ))}
         {console.log("boards", boards)}
+        <Save
+          handleResult={this.handleResult}
+          result={result}
+        />
       </>
     );
   }
