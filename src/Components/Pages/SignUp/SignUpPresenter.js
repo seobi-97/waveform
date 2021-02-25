@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -28,9 +28,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUpPresenter = ({
-  creds: { email, password, role, sendCred, updateCred },
+  creds: { email, password, status, sendCred, updateCred },
 }) => {
   const classes = useStyles;
+  const history = useHistory();
+  const goBack = (status) => {
+    if (status === 201) history.push("/waveform");
+    else alert("회원가입에 실패하였습니다.");
+  };
+
   return (
     <Container style={{ marginTop: 150 }} component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -62,19 +68,17 @@ const SignUpPresenter = ({
             value={password}
             onChange={(event) => updateCred(event, "password")}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
+          <Button
+            type="submit"
             fullWidth
-            name="role"
-            label="Role"
-            type="role"
-            id="role"
-            value={role}
-            onChange={(event) => updateCred(event, "role")}
-          />
-          {email && password && role ? (
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+            // onClick={() => goBack(status)}
+          >
+            Sign Up
+          </Button>
+          {/* {email && password ? (
             <Link to={"/waveform"}>
               <Button
                 type="submit"
@@ -96,7 +100,7 @@ const SignUpPresenter = ({
             >
               Sign Up
             </Button>
-          )}
+          )} */}
         </form>
       </div>
     </Container>
