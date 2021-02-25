@@ -3,12 +3,15 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 // import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 export default class TalkerForm extends React.Component {
   state = {
     talker: "",
     text: "",
-    analysisType:'',
+    analysisType: "",
   };
 
   handleSelectRow = (row) => {
@@ -80,21 +83,24 @@ export default class TalkerForm extends React.Component {
           </Grid>
           <Grid container spacing={3} item xs={2}>
             <Grid>
-              <FormControl variant="outlined" style={{marginTop:20, minWidth:130}}>
-              <Select
-                value={this.state.analysisType}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'analysisType'
-                }}
+              <FormControl
+                variant="outlined"
+                style={{ marginTop: 20, minWidth: 130 }}
+              >
+                <Select
+                  value={this.state.analysisType}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: "analysisType",
+                  }}
                 >
-                <MenuItem  value={"morpAPI"}>morpAPI</MenuItem>
-                <MenuItem  value={"wsdAPI"}>wsdAPI</MenuItem>
-                <MenuItem  value={"wsd_polyAPI"}>wsd_polyAPI</MenuItem>
-                <MenuItem  value={"nerAPI"}>nerAPI</MenuItem>
-                <MenuItem  value={"dparseAPI"}>dparseAPI</MenuItem>
-                <MenuItem  value={"srlAPI"}>srlAPI</MenuItem>
-              </Select>
+                  <MenuItem value={"morpAPI"}>morpAPI</MenuItem>
+                  <MenuItem value={"wsdAPI"}>wsdAPI</MenuItem>
+                  <MenuItem value={"wsd_polyAPI"}>wsd_polyAPI</MenuItem>
+                  <MenuItem value={"nerAPI"}>nerAPI</MenuItem>
+                  <MenuItem value={"dparseAPI"}>dparseAPI</MenuItem>
+                  <MenuItem value={"srlAPI"}>srlAPI</MenuItem>
+                </Select>
               </FormControl>
             </Grid>
           </Grid>
