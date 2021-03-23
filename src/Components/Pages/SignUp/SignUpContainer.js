@@ -6,6 +6,7 @@ const AWS =
   "http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/signUp";
 
 const LOCAL = "http://192.168.0.10:8080/cosmos/kStars/signUp";
+
 class SignUpContainer extends Component {
   constructor(props) {
     super(props);

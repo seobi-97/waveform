@@ -1,8 +1,14 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import Waveform from "./Waveform";
 import TalkerForm from "./TalkerForm";
 import TalkerItem from "./TalkerItem";
 import Save from "./Save";
+import DataContext from "../../../Contexts/DataContext";
+
+const Context = () => {
+  const projData = useContext(DataContext);
+  return <div>{console.log(projData)}</div>;
+};
 
 class Main extends Component {
   constructor(props) {
@@ -104,8 +110,10 @@ class Main extends Component {
   render() {
     const { boards, selectedBoard, wavesurfer, result } = this.state;
     console.log("userToken in Main", this.props.user.userToken);
+
     return (
       <>
+        <Context />
         <Waveform
           onClick={this.handleSetRegionPoints}
           handleAudioPlay={this.handleAudioPlay}

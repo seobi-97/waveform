@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import DataContext from "../../../Contexts/DataContext";
+
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Input from "@material-ui/core/Input";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
 
 const Title = styled.h2`
   color: #303f9f;
@@ -21,21 +30,21 @@ const Form = styled.form`
   padding: 20px 30px;
 `;
 
-const NextBtn = styled.div`
+const NextBtn = styled(Link)`
+  margin-top: 30px;
   text-decoration: none;
   color: #ffffff;
-  margin: 0 auto;
-  margin-top: 20px;
   background-color: #303f9f;
   padding: 10px;
   border: 1px solid #303f9f;
   border-radius: 5px;
-  width: 100px;
-  text-align: center;
   cursor: pointer;
 `;
 
-export default ({ fileName, getUploadedFile }) => {
+export default ({ state, getUploadedFile, handleChange }) => {
+  const { projectName, fileName } = state;
+  const projData = useContext(DataContext);
+
   return (
     <Container style={{ marginTop: 150 }} component="main" maxWidth="md">
       <Typography component="h1" variant="h2" align="center">
@@ -44,14 +53,16 @@ export default ({ fileName, getUploadedFile }) => {
       <Title>Project 시작하기</Title>
       <Form>
         <Grid container style={{ display: "flex", alignItems: "center" }}>
-          <Grid xs="2">
-            <Typography body2>프로젝트 명</Typography>
+          <Grid xs={2} item={true}>
+            <Typography>프로젝트 명</Typography>
           </Grid>
-          <Grid xs="9">
+          <Grid xs={9} item={true}>
             <TextField
               required
-              label="프로젝트 명"
+              value={projectName}
+              onChange={handleChange}
               name="projectName"
+              label="프로젝트 명"
               helperText="프로젝트 명을 기재해주세요."
               fullWidth
               style={{ marginLeft: 10 }}
@@ -59,12 +70,14 @@ export default ({ fileName, getUploadedFile }) => {
           </Grid>
         </Grid>
         <Grid container direction="row" style={{ marginTop: 30 }}>
-          <Grid xs="2">
-            <Typography body2 style={{ marginTop: 20 }}>
-              음성파일 등록
-            </Typography>
+          <Grid xs={2} item={true}>
+            <Typography style={{ marginTop: 20 }}>음성파일 등록</Typography>
           </Grid>
-          <Grid xs="9" style={{ display: "flex", alignItems: "center" }}>
+          <Grid
+            xs={9}
+            item={true}
+            style={{ display: "flex", alignItems: "center" }}
+          >
             <Input
               type="text"
               placeholder="파일 명*"
@@ -75,7 +88,7 @@ export default ({ fileName, getUploadedFile }) => {
               style={{ margin: 10 }}
             />
             <Button variant="contained" color="primary" component="label">
-              Upload
+              Browse
               <input
                 type="file"
                 accept="audio/*"
@@ -86,28 +99,48 @@ export default ({ fileName, getUploadedFile }) => {
           </Grid>
         </Grid>
         <Grid container direction="row" style={{ marginTop: 30 }}>
-          <Grid xs="2">
-            <Typography body2 style={{ marginTop: 20 }}>
-              헤더 정보 입력
-            </Typography>
+          <Grid xs={2} item={true}>
+            <Typography style={{ marginTop: 20 }}>전사 타입</Typography>
           </Grid>
-          <Grid xs="9">
-            <TextField
-              required
-              label="구성원"
-              name="Role"
-              // value={projectName}
-              // onChange={handleValueChange}
-              helperText="구성원을 기재해주세요. (예)mother, father...etc"
-              fullWidth
-              style={{ marginLeft: 10 }}
-            />
+          <Grid xs={9} item={true}>
+            <FormControl
+              component="fieldset"
+              style={{ marginLeft: 10, marginTop: 15 }}
+            >
+              <RadioGroup
+                aria-label="type"
+                name="conversationType"
+                row
+                onChange={handleChange}
+              >
+                <FormControlLabel
+                  value="narration"
+                  control={<Radio />}
+                  label="나레이션"
+                />
+                <FormControlLabel
+                  value="conversation"
+                  control={<Radio />}
+                  label="대화"
+                />
+                <FormControlLabel
+                  value="etc"
+                  control={<Radio />}
+                  label="기타"
+                />
+              </RadioGroup>
+            </FormControl>
           </Grid>
         </Grid>
       </Form>
-      <Link to="/waveform/main">
-        <NextBtn>Start</NextBtn>
-      </Link>
+      <NextBtn
+        to="/waveform/start/header"
+        onClick={() => {
+          projData.update({ ...state });
+        }}
+      >
+        헤더 마법사로 이동
+      </NextBtn>
     </Container>
   );
 };
