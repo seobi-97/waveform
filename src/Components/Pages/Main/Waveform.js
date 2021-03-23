@@ -21,7 +21,12 @@ export default class Waveform extends React.Component {
       wavesurfer,
     });
     this.state.wavesurfer.enableDragSelection({
-      color: "rgba(100, 149, 240, 0.3)",
+      color: 'rgba('+[~~(Math.random()*255),
+        ~~(Math.random()*255),
+        ~~(Math.random()*255),
+        this.state.d,
+      ]+')',
+      //color: "rgba(100, 149, 240, 0.3)",
     });
     this.state.wavesurfer.on("ready", () =>
       this.setState({ duration: wavesurfer.getDuration() })
@@ -69,6 +74,7 @@ export default class Waveform extends React.Component {
       e.originalArgs[0].end,
       this.state.wavesurfer
     );
+
   };
 
   handleRegionDone = (e) => {
@@ -80,7 +86,7 @@ export default class Waveform extends React.Component {
         );
       }, 50);
       //loop prevent
-      this.setState({ playing: false });
+      this.setState({ playing: true }); //구간을 클릭한 상태일때 구간 반복재생
     }
   };
 
@@ -95,7 +101,6 @@ export default class Waveform extends React.Component {
       wavesurfer.zoom(currentZoom - 10);
     }
   };
-
   render() {
     const { duration, pos, wavesurfer } = this.state;
     return (
@@ -111,7 +116,8 @@ export default class Waveform extends React.Component {
               barGap: 2,
               barWidth: 1.8,
               barHeight: 2,
-              cursorWidth: 0,
+              cursorWidth: 2,
+              cursorColor: "#202a66",
               height: 200,
               hideScrollbar: true,
               progressColor: "#EC407A",

@@ -11,7 +11,6 @@ export default class TalkerForm extends React.Component {
   state = {
     talker: "",
     text: "",
-    analysisType: "",
   };
 
   handleSelectRow = (row) => {
@@ -27,17 +26,15 @@ export default class TalkerForm extends React.Component {
   handleSubmit = async (e) => {
     e.preventDefault();
     let selectedBoard = this.props.selectedBoard;
-    const { talker, text, analysisType } = this.state;
+    const { talker, text } = this.state;
     let data = {
       talker,
       text,
-      analysisType: analysisType,
     };
     this.props.onSaveData(data, selectedBoard.brdno);
     this.setState({
       talker: "",
       text: "",
-      analysisType: "",
     });
   };
 
@@ -80,29 +77,6 @@ export default class TalkerForm extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-          </Grid>
-          <Grid container spacing={3} item xs={2}>
-            <Grid>
-              <FormControl
-                variant="outlined"
-                style={{ marginTop: 20, minWidth: 130 }}
-              >
-                <Select
-                  value={this.state.analysisType}
-                  onChange={this.handleChange}
-                  inputProps={{
-                    name: "analysisType",
-                  }}
-                >
-                  <MenuItem value={"morpAPI"}>morpAPI</MenuItem>
-                  <MenuItem value={"wsdAPI"}>wsdAPI</MenuItem>
-                  <MenuItem value={"wsd_polyAPI"}>wsd_polyAPI</MenuItem>
-                  <MenuItem value={"nerAPI"}>nerAPI</MenuItem>
-                  <MenuItem value={"dparseAPI"}>dparseAPI</MenuItem>
-                  <MenuItem value={"srlAPI"}>srlAPI</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
           </Grid>
           <Grid
             container

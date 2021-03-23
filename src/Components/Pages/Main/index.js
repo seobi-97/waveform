@@ -14,8 +14,6 @@ class Main extends Component {
           brdno: 0,
           talker: "코스모스",
           text: "코스모스는 가을에 피어요.",
-          analysisType: "morpAPI",
-          analysisResult: "",
         },
       ],
       selectedBoard: {},
