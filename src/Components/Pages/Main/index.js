@@ -1,8 +1,89 @@
-import React, { Component } from "react";
+import React, { Component,createContext, useContext } from "react";
 import Waveform from "./Waveform";
 import TalkerForm from "./TalkerForm";
 import TalkerItem from "./TalkerItem";
 import Save from "./Save";
+import DataContext from "../../../Contexts/DataContext";
+import Connect from "./Connect";
+const AppContext=createContext();
+
+const Context = ({creds:{KSTProject,token}}) => {
+  const projData = useContext(DataContext);
+  //let data='projData';
+  const d=projData.data;
+  KSTProject= {
+    m_Audio: {
+      audioCurrentPosition: 0,
+      audioFileIndex: 0,
+      audioPath: [
+        localStorage.audioFile,
+      ],
+
+    },
+    m_KTierMorpVer2: {
+      dataType: "string",
+      datas: [{
+        morp: "string",
+        speaker: "string",
+        uid: "string",
+        user: "string"
+      }, ]
+    },
+    m_KTierVer2: {
+      dataType: "",
+      datas: [{
+        speaker: "",
+        text: "",
+        time: "",
+        uid: 0
+      }, ]
+    },
+    m_Option: {
+      speakerList: [
+        "string",
+      ],
+      stringOption: "string"
+    },
+    m_header: {
+      arrID: [{
+        age: d.IDAge,
+        code: "string",
+        corpus: "string",
+        dateOfBirth: "string",
+        edu: d.IDEdu,
+        group: d.IDGroup,
+        region: d.IDRegion,
+        role: "string",
+        ses: d.IDSES,
+        sex: d.IDSex
+      }],
+      arrParticipants: [
+        "string"
+      ],
+      birthOfCHI: "string",
+      birthPlaceOfCHI: d.BirthPlace,
+      comment: d.Comment,
+      date: "string",
+      language: "string",
+      location: d.Location,
+      media: "string",
+      recording: "string",
+      reviewer: d.Reviewer,
+      situation: d.Situation,
+      speechType: "string",
+      transcriber: d.Transcriber
+    },
+    userDto: {
+      fileName: d.projectName,//localStorage.projectName,
+      id: "string",
+      user: "user"
+    },
+    version: "string"
+  };
+  return <Connect KSTProject={KSTProject} token={token}/>;
+  //return <div>{console.log(token)}</div>;
+  //return <div>{console.log(projData)}</div>;
+};
 
 class Main extends Component {
   constructor(props) {
@@ -22,6 +103,8 @@ class Main extends Component {
       wavesurfer: null,
       audioPlaying: false,
       result: [],
+      token:this.props.user.userToken,
+      KSTProject: null,
     };
     this.handleAudioPlay = this.handleAudioPlay.bind(this);
     this.handleSetRegionPoints = this.handleSetRegionPoints.bind(this);
@@ -30,8 +113,13 @@ class Main extends Component {
     this.handleSelectRow = this.handleSelectRow.bind(this);
     this.handleClearRegionPoints = this.handleClearRegionPoints.bind(this);
     this.handleResult = this.handleResult.bind(this);
+    this.updatetoken=this.updatetoken.bind(this);
   }
-
+  updatetoken=(event,cred)=>{
+    this.setState({
+      [cred]:event.target.value,
+    });
+  };
   handleAudioPlay = (bool) => {
     this.setState({ audioPlaying: bool });
   };
@@ -44,7 +132,7 @@ class Main extends Component {
 
   handleGetData = (data, brdno) => {
     this.state.result = this.state.result.concat({
-      brdnp: this.state.maxNo,
+      brdno: this.state.maxNo,
       ...data,
     });
     if (!brdno) {
@@ -94,16 +182,22 @@ class Main extends Component {
     );
     console.log("Clear Region start&end points");
   };
-  handleResult = (result) => {
+  handleResult = (Context,result) => {
+    //const projData = useContext(DataContext);
     this.setState({
       result: result,
+      //result:this.state.result.concat({projData,result}),
     });
   };
   render() {
-    const { boards, selectedBoard, wavesurfer, result } = this.state;
-    console.log("userToken in Main", this.props.user.userToken);
+    const { boards, selectedBoard, wavesurfer, result, KSTProject, token } = this.state;
+    //const projData=Context();
+    //console.log(projData);
+    const {updatetoken}=this;
+    console.log("userToken in Main", token);
     return (
       <>
+        
         <Waveform
           onClick={this.handleSetRegionPoints}
           handleAudioPlay={this.handleAudioPlay}
@@ -132,6 +226,7 @@ class Main extends Component {
         ))}
         {console.log("boards", boards)}
         <Save handleResult={this.handleResult} result={result} />
+        <Context creds={{KSTProject, token}}/>
       </>
     );
   }

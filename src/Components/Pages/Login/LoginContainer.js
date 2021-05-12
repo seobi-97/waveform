@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import LoginPresenter from "./LoginPresenter";
 import axios from "axios";
 
-const AWS =
-  "http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/signIn";
+const AWS = "http://192.168.43.8:8080/cosmos/KStars/test1";
+  //"http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/signIn";
 
 const LOCAL = "http://192.168.0.10:8080/cosmos/kStars/signIn";
 class LoginContainer extends Component {
@@ -26,19 +26,29 @@ class LoginContainer extends Component {
   sendCred = (event) => {
     event.preventDefault();
     const { email, password } = this.state;
-    axios
-      .post(AWS, {
-        email,
-        password,
-      })
-      .then((res) => {
-        console.log(res);
-        this.props.updateUserToken(res.data);
-      })
-      .catch((error) => {
-        console.log("login error", error);
-        alert("틀린 이메일 혹은 비밀번호입니다.");
-      });
+    // try{
+    //   const result= await axios.post(AWS,{
+    //     email,
+    //     password,
+    //   });
+    //   console.log("result:",result);
+    // }catch(error){
+    //   console.log("login error", error);
+    //   alert("틀린 이메일 혹은 비밀번호입니다.");
+    // }
+     axios
+       .post(LOCAL, {
+         email,
+         password,
+       })
+       .then((res) => {
+         console.log(res);
+         this.props.updateUserToken(res.data);
+       })
+       .catch((error) => {
+         console.log("login error", error);
+         alert("틀린 이메일 혹은 비밀번호입니다.");
+       });
   };
 
   render() {

@@ -24,7 +24,7 @@ export default class Waveform extends React.Component {
       color: 'rgba('+[~~(Math.random()*255),
         ~~(Math.random()*255),
         ~~(Math.random()*255),
-        this.state.d,
+        0.3,
       ]+')',
       //color: "rgba(100, 149, 240, 0.3)",
     });
@@ -86,7 +86,7 @@ export default class Waveform extends React.Component {
         );
       }, 50);
       //loop prevent
-      this.setState({ playing: true }); //구간을 클릭한 상태일때 구간 반복재생
+      this.setState({ playing: false }); //구간을 클릭한 상태일때 구간 반복재생
     }
   };
 
