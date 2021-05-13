@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import SignUpPresenter from "./SignUpPresenter";
 import axios from "axios";
 
-const AWS = "http://192.168.43.8:8080/cosmos/kStars/signUp";
-  //"http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/signUp";
+const AWS = //"http://192.168.43.8:8080/cosmos/kStars/signUp";
+  "http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/signUp";
 
 const LOCAL = "http://192.168.0.10:8080/cosmos/kStars/signUp";
 
@@ -43,7 +43,7 @@ class SignUpContainer extends Component {
     event.preventDefault();
     const { email, password } = this.state;
     try {
-      const result = await axios.post(LOCAL, {
+      const result = await axios.post(AWS, {
         email,
         password,
       });

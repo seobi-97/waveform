@@ -39,11 +39,10 @@ class Connect extends Component{
 sendCred = (event) => {
   event.preventDefault();
   const { KSTProject, token } = this.state;
-  //this.state.token="eyJ0eXAiOiJKV1QiLCJpc3N1ZURhdGUiOjE2MjA4MTMzMDM4NzgsImFsZyI6IkhTMjU2In0.eyJFTUFJTCI6InV1dUBuYXZlci5jb20iLCJleHAiOjE2MjExNzMzMDN9.7kD95x3u2OrtAqMvwipz6oRgQ19vI2Ot5OytGlyDu-w";
   console.log(KSTProject);
   console.log(token);
   axios
-    .post("http://192.168.0.10:8080/cosmos/kStars/create/kst/user",
+    .post("http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/create/kst/user",
           KSTProject,{headers: {
             "Content-type": "application/json",
             "token": token,
