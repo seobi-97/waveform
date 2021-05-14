@@ -7,7 +7,7 @@ import DataContext from "../../../Contexts/DataContext";
 import Connect from "./Connect";
 const AppContext=createContext();
 
-const Context = ({creds:{KSTProject,token}}) => {
+const Context = ({creds:{KSTProject,token,boards}}) => {
   const projData = useContext(DataContext);
   //let data='projData';
   const d=projData.data;
@@ -32,8 +32,8 @@ const Context = ({creds:{KSTProject,token}}) => {
     m_KTierVer2: {
       dataType: "",
       datas: [{
-        speaker: "",
-        text: "",
+        speaker: boards[0].talker,
+        text: boards[0].text,
         time: "",
         uid: 0
       }, ]
@@ -80,7 +80,7 @@ const Context = ({creds:{KSTProject,token}}) => {
     },
     version: "string"
   };
-  return <Connect KSTProject={KSTProject} token={token}/>;
+  return <Connect KSTProject={KSTProject} token={token} boards={boards}/>;
   //return <div>{console.log(token)}</div>;
   //return <div>{console.log(projData)}</div>;
 };
@@ -197,7 +197,6 @@ class Main extends Component {
     console.log("userToken in Main", token);
     return (
       <>
-        
         <Waveform
           onClick={this.handleSetRegionPoints}
           handleAudioPlay={this.handleAudioPlay}
@@ -226,7 +225,7 @@ class Main extends Component {
         ))}
         {console.log("boards", boards)}
         <Save handleResult={this.handleResult} result={result} />
-        <Context creds={{KSTProject, token}}/>
+        <Context creds={{KSTProject, token, boards}}/>
       </>
     );
   }

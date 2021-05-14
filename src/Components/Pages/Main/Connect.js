@@ -32,6 +32,7 @@ class Connect extends Component{
     this.state={
       KSTProject:this.props.KSTProject,
       token:this.props.token,
+      boards:this.props.boards,
     }
     this.sendCred=this.sendCred.bind(this);
   };
