@@ -1,19 +1,17 @@
 {
   "files": {
-    "main.js": "/waveform/static/js/main.b27b19eb.chunk.js",
-    "main.js.map": "/waveform/static/js/main.b27b19eb.chunk.js.map",
-    "runtime-main.js": "/waveform/static/js/runtime-main.50749661.js",
-    "runtime-main.js.map": "/waveform/static/js/runtime-main.50749661.js.map",
-    "static/js/2.c3d55ff7.chunk.js": "/waveform/static/js/2.c3d55ff7.chunk.js",
-    "static/js/2.c3d55ff7.chunk.js.map": "/waveform/static/js/2.c3d55ff7.chunk.js.map",
+    "main.js": "/waveform/static/js/main.31f9cc45.chunk.js",
+    "main.js.map": "/waveform/static/js/main.31f9cc45.chunk.js.map",
+    "runtime-main.js": "/waveform/static/js/runtime-main.75ebc142.js",
+    "runtime-main.js.map": "/waveform/static/js/runtime-main.75ebc142.js.map",
+    "static/js/2.c4f12c23.chunk.js": "/waveform/static/js/2.c4f12c23.chunk.js",
+    "static/js/2.c4f12c23.chunk.js.map": "/waveform/static/js/2.c4f12c23.chunk.js.map",
     "index.html": "/waveform/index.html",
-    "precache-manifest.2ceb0b250abb30f2e75719879dee22d9.js": "/waveform/precache-manifest.2ceb0b250abb30f2e75719879dee22d9.js",
-    "service-worker.js": "/waveform/service-worker.js",
-    "static/js/2.c3d55ff7.chunk.js.LICENSE.txt": "/waveform/static/js/2.c3d55ff7.chunk.js.LICENSE.txt"
+    "static/js/2.c4f12c23.chunk.js.LICENSE.txt": "/waveform/static/js/2.c4f12c23.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.50749661.js",
-    "static/js/2.c3d55ff7.chunk.js",
-    "static/js/main.b27b19eb.chunk.js"
+    "static/js/runtime-main.75ebc142.js",
+    "static/js/2.c4f12c23.chunk.js",
+    "static/js/main.31f9cc45.chunk.js"
   ]
 }
