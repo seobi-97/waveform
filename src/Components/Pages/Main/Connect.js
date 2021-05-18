@@ -39,9 +39,10 @@ class Connect extends Component{
 
 sendCred = (event) => {
   event.preventDefault();
-  const { KSTProject, token } = this.state;
+  const { KSTProject, token, boards } = this.state;
   console.log(KSTProject);
   console.log(token);
+  console.log(boards);
   axios
     .post("http://ec2-3-86-166-99.compute-1.amazonaws.com:8080/cosmos/kStars/create/kst/user",
           KSTProject,{headers: {

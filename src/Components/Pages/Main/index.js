@@ -5,12 +5,12 @@ import TalkerItem from "./TalkerItem";
 import Save from "./Save";
 import DataContext from "../../../Contexts/DataContext";
 import Connect from "./Connect";
-const AppContext=createContext();
 
 const Context = ({creds:{KSTProject,token,boards}}) => {
   const projData = useContext(DataContext);
   //let data='projData';
   const d=projData.data;
+  console.log(boards);
   KSTProject= {
     m_Audio: {
       audioCurrentPosition: 0,
@@ -32,8 +32,8 @@ const Context = ({creds:{KSTProject,token,boards}}) => {
     m_KTierVer2: {
       dataType: "",
       datas: [{
-        speaker: boards[0].talker,
-        text: boards[0].text,
+        speaker: "",
+        text: "",
         time: "",
         uid: 0
       }, ]
@@ -147,6 +147,7 @@ class Main extends Component {
         }),
         selectedBoard: {},
       });
+      console.log(this.state.boards);
     } else {
       // Update
       this.setState({
@@ -182,11 +183,9 @@ class Main extends Component {
     );
     console.log("Clear Region start&end points");
   };
-  handleResult = (Context,result) => {
-    //const projData = useContext(DataContext);
+  handleResult = (result) => {
     this.setState({
       result: result,
-      //result:this.state.result.concat({projData,result}),
     });
   };
   render() {

@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-
+import { Link } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   layout: {},
   paper: {
@@ -77,7 +77,7 @@ const SignUpPresenter = ({
             // onClick={() => goBack(status)}
           >
             Sign Up
-          </Button>
+          </Button>  
           {/* {email && password ? (
             <Link to={"/waveform"}>
               <Button
@@ -102,6 +102,16 @@ const SignUpPresenter = ({
             </Button>
           )} */}
         </form>
+        <Link to={"/waveform"}>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            style={{ marginTop: 30 }}
+          >
+            {"Login 페이지 이동"}
+          </Button>
+        </Link>
       </div>
     </Container>
   );

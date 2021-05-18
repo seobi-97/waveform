@@ -15,8 +15,8 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
-import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
+import { scryRenderedDOMComponentsWithClass } from "react-dom/test-utils";
 const Title = styled.h2`
   color: #303f9f;
   margin-top: 30px;
@@ -44,72 +44,10 @@ const NextBtn = styled.div`
   cursor: pointer;
 `;
 
-const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, handleSubmit2, handleFlag }) => {
+const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, handleSubmit2, role}) => {
   const projData = useContext(DataContext);
   console.log("header", projData);
   const {
-    // KSTProject: {
-    //   m_Audio: {
-    //     audioCurrentPosition,
-    //     audioFileIndex,
-    //     audioPath
-    //   },
-    //   m_KTierMorpVer2: {
-    //     dataType,
-    //     datas: [{
-    //       morp,
-    //       speaker,
-    //       uid,
-    //       user
-    //     }, ]
-    //   },
-    //   m_KTierVer2: {
-    //     //dataType,
-    //     datas: [{
-    //       //speaker,
-    //       text,
-    //       time,
-    //       //uid
-    //     }, ]
-    //   },
-    //   m_Option: {
-    //     speakerList,
-    //     stringOption
-    //   },
-    //   m_header: {
-    //     arrID: [{
-    //       age,
-    //       code,
-    //       corpus,
-    //       dateOfBirth,
-    //       edu,
-    //       group,
-    //       region,
-    //       role,
-    //       ses,
-    //       sex
-    //     }],
-    //     arrParticipants,
-    //     birthOfCHI,
-    //     //birthPlaceOfCHI,
-    //     comment,
-    //     date,
-    //     language,
-    //     location,
-    //     media,
-    //     recording,
-    //     reviewer,
-    //     situation,
-    //     speechType,
-    //     transcriber
-    //   },
-    //   userDto: {
-    //     fileName,
-    //     id,
-    //     //user
-    //   },
-    //   version
-    // },
     SpeechType,
     Participants,
     BirthPlace,
@@ -122,35 +60,13 @@ const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, ha
     IDCorpus,
     IDDateOfBirth,
     
-    ChIDAge,
-    ChIDSex,
-    ChIDGroup,
-    ChIDRegion,
-    ChIDSES,
-    ChIDEdu,
-
-    MoIDAge,
-    MoIDSex,
-    MoIDGroup,
-    MoIDRegion,
-    MoIDSES,
-    MoIDEdu,
-
-    FaIDAge,
-    FaIDSes,
-    FaIDGroup,
-    FaIDRegion,
-    FaIDSES,
-    FaIDEdu,
-    
     IDCode,
     IDRole,
-    Code,
-    Role,
+    Roles,
+
     CHI,
     MOT,
     FAT,
-    addFlag,
     value,
     IDAge,
     IDSex,
@@ -159,7 +75,6 @@ const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, ha
     IDSES,
     IDEdu,
   } = state;
-
   return (
     <Container style={{ marginTop: 150 }} component="main" maxWidth="md">
       <Typography component="h1" variant="h2" align="center">
@@ -278,24 +193,50 @@ const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, ha
             </FormControl>
           </Grid>
         </Grid>
-        
       </Form>
-      
-
       <Box border={1} borderRadius="borderRadius" borderColor="#243cd4">
       <Grid container direction="column" style={{ marginTop: 10 }} >
-      <form onSubmit={handleSubmit2}>
+      
       <Grid container direction="column">
+          <Grid xs={2} item={true}>
+            <Typography style={{ marginTop: 20 }}>✔ 구성원 추가</Typography>
+          </Grid>
+          <form onSubmit={handleSubmit}>
+          <Grid xs={9} item={true}>
+            <TextField
+              required
+              label="코드"
+              name="IDCode"
+              value={IDCode}
+              onChange={handleChange}
+              helperText="코드를 기재해주세요. (예)CHI, MOT"
+              style={{ marginLeft: 10, width:300 }}
+            />
+            <TextField
+              required
+              label="역할"
+              name="IDRole"
+              value={IDRole}
+              onChange={handleChange}
+              helperText="구성원을 기재해주세요. (예)형제, 자매, 삼촌"
+              style={{ marginLeft: 10, width:300 }}
+            />
+            <Button type="submit"
+                    variant="contained"
+                    color="primary"
+                    style={{ marginLeft: 10}}
+            >
+              추가
+            </Button>
+          </Grid>
+          </form>
           <Grid xs={2} item={true}>
             <Typography style={{ marginTop: 20 }}>✔ 구성원 선택</Typography>
           </Grid>
           <Grid xs={9} item={true}>
             <FormControl component="fieldset" style={{marginLeft:10, marginTop:15}}>
-              <RadioGroup aria-label="value" name="value" value={value} onChange={handleChange} row>
-                <FormControlLabel value="child" control={<Radio/>} label="Child"/>
-                <FormControlLabel value="mother" control={<Radio/>} label="Mother" />
-                <FormControlLabel value="father" control={<Radio/>} label="Father"/>
-                {addFlag?(<FormControlLabel value={Code} control={<Radio/>} label={Role}/> ):(<span></span>)}
+              <RadioGroup aria-label="value" name="value" onChange={handleChange} row>
+                {Roles.map((row)=>(<FormControlLabel value={row.IDCode} control={<Radio/>} label={row.IDRole}/>))}
               </RadioGroup>
             </FormControl>
           </Grid>
@@ -315,6 +256,26 @@ const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, ha
               // 출생일
             </Grid> */}
         </Grid>
+        <Grid container
+          item
+          sm={2}
+          direction="row"
+          justify="flex-start"
+          alignItems="flex-start"
+          >
+            <TextField
+              id="standard-read-only-input"
+              label="역할"
+              value={role.IDRole}
+              style={{ margin: 8 }}
+              margin="normal"
+              variant="filled"
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+          </Grid>
+      <form onSubmit={handleSubmit2}>
       <Grid xs={9} item={true}>
         <Grid xs={2} item={true}>
         <FormControl
@@ -540,6 +501,14 @@ const HeaderPresenter = ({ state, handleSaveData, handleChange, handleSubmit, ha
                 />
               </RadioGroup>
             </FormControl>
+            <Button
+              type="submit"
+              variant="contained"
+              color="secondary"
+              style={{ margin: 20, padding: 10 }}
+            >
+              입력
+            </Button>
           </Grid>
       </Grid>
       </form>

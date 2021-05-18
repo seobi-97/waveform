@@ -4,7 +4,10 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import { FormControlLabel, RadioGroup } from "@material-ui/core";
+import Radio from "@material-ui/core/Radio";
 
+import FormControl from "@material-ui/core/FormControl";
 class TalkerItem extends Component {
   handleSelectRow = () => {
     const { row, onSelectRow } = this.props;
@@ -54,10 +57,6 @@ class TalkerItem extends Component {
             }}
             onClick={this.handleSelectRow}
           />
-
-          <Typography variant="h6" style={{ marginTop: 5, marginLeft: 80 }}>
-            {row.analysisType}
-          </Typography>
         </Grid>
         {/* 행번호, 발화인, 분석태그 end */}
 
