@@ -33,19 +33,19 @@ const Router = ({ user }) => {
         >
           <AuthRoute
             path="/waveform/start/project"
-            isAuthed={!user.userToken ? true : false}
+            isAuthed={user.userToken ? true : false}
           >
             <ProjectStart user={user} />
           </AuthRoute>
           <AuthRoute
             path="/waveform/start/header"
-            isAuthed={!user.userToken ? true : false}
+            isAuthed={user.userToken ? true : false}
           >
             <Header user={user} />
           </AuthRoute>
           <AuthRoute
             path="/waveform/main"
-            isAuthed={!user.userToken ? true : false}
+            isAuthed={user.userToken ? true : false}
           >
             <Main user={user} />
           </AuthRoute>
