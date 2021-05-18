@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/waveform/static/js/main.1c1bb0af.chunk.js",
-    "main.js.map": "/waveform/static/js/main.1c1bb0af.chunk.js.map",
+    "main.js": "/waveform/static/js/main.19460bc7.chunk.js",
+    "main.js.map": "/waveform/static/js/main.19460bc7.chunk.js.map",
     "runtime-main.js": "/waveform/static/js/runtime-main.75ebc142.js",
     "runtime-main.js.map": "/waveform/static/js/runtime-main.75ebc142.js.map",
     "static/js/2.f41642e4.chunk.js": "/waveform/static/js/2.f41642e4.chunk.js",
@@ -12,6 +12,6 @@
   "entrypoints": [
     "static/js/runtime-main.75ebc142.js",
     "static/js/2.f41642e4.chunk.js",
-    "static/js/main.1c1bb0af.chunk.js"
+    "static/js/main.19460bc7.chunk.js"
   ]
 }
